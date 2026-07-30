@@ -21,11 +21,6 @@ dist-ssr/
 .env.local
 .env.*.local
 
-# Generated API client (run `npm run generate-api` to regenerate)
-src/api/client/*.gen.ts
-src/api/client/client/
-src/api/client/core/
-
 # Editor
 .DS_Store
 *.swp
