@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Vite
+.vite/
+
+# Environment files (actual values, not templates)
+.env
+.env.local
+.env.*.local
+
+# Generated API client (run `npm run generate-api` to regenerate)
+src/api/client/*.gen.ts
+src/api/client/client/
+src/api/client/core/
+
+# Editor
+.DS_Store
+*.swp
+*.swo
+
+# Copier answers
+.copier-answers.yml

@@ -1,0 +1,13 @@
+image: node:{{ node_version }}-bookworm
+
+pipelines:
+  default:
+    - step:
+        name: Lint and Build
+        caches:
+          - node
+        script:
+          - npm ci
+          - npx tsc -b --noEmit
+          - npm run lint
+          - npm run build

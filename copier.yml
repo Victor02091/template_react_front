@@ -1,0 +1,72 @@
+_jinja_extensions:
+  - copier_template_extensions.TemplateExtensionLoader
+  - extensions/context.py:GitInfoExtension
+
+project_name:
+  type: str
+  help: Human-readable project name
+  default: "{{ current_folder_name | replace('_', ' ') | replace('-', ' ') | title }}"
+
+author_name:
+  type: str
+  help: Author name
+  default: "{{ git_user_name | default('Your Name', true) }}"
+
+author_email:
+  type: str
+  help: Author email
+  default: "{{ git_user_email | default('your@email.com', true) }}"
+
+description:
+  type: str
+  help: Short project description
+  default: A React frontend application.
+
+node_version:
+  type: str
+  help: Node.js version
+  default: "22"
+  choices:
+    - "22"
+    - "20"
+
+backend_url:
+  type: str
+  help: Default local backend URL (used in env.js and openapi-ts config)
+  default: "http://localhost:8000"
+
+add_ci:
+  type: bool
+  default: true
+  help: Configure CI pipeline?
+
+ci_provider:
+  type: str
+  default: github
+  choices:
+    Github Actions: github
+    GitLab CI: gitlab
+    Bitbucket Pipelines: bitbucket
+  help: Which CI provider are you using?
+  when: "{{ add_ci }}"
+
+install_dependencies:
+  type: bool
+  default: true
+  help: Run npm install after generation?
+
+_tasks:
+  - command: "npm install"
+    when: "{{ install_dependencies }}"
+
+  - command: |
+      if [ ! -d .git ]; then
+          git init
+      fi
+
+      if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
+          git add .
+          git commit -m "chore: initial commit from template"
+      fi
+
+_subdirectory: template
