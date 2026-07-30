@@ -1,0 +1,81 @@
+name: Test Copier Template
+
+on:
+  push:
+  pull_request:
+  # Schedule a run once a month to catch upstream dependency breaks
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  test-generation-and-build:
+    name: Generate and Test Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout template repository
+        uses: actions/checkout@v4
+
+      - name: Set up Git config
+        run: |
+          # Required because Copier's post-generation tasks involve Git commits
+          git config --global user.name "github-actions-bot"
+          git config --global user.email "github-actions-bot@users.noreply.github.com"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Copier
+        run: uv tool install copier --with copier-template-extensions
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          
+      - name: Generate project from template
+        run: |
+          # --trust allows Copier to run your post-generation _tasks (e.g., npm install)
+          # --defaults accepts all default answers automatically
+          copier copy --trust --defaults . generated-project
+
+      - name: Check Format (Prettier)
+        working-directory: generated-project
+        run: npm run format:check
+
+      - name: Lint Code (ESLint)
+        working-directory: generated-project
+        run: npm run lint
+
+      - name: Type Check & Build (TSC & Vite)
+        working-directory: generated-project
+        run: |
+          # This verifies your Vite build and TypeScript configuration
+          npm run build
+
+      - name: Test Docker Build
+        working-directory: generated-project
+        run: |
+          # Builds the two-stage Node + Nginx Dockerfile
+          docker build -t generated-app:test .
+
+      - name: Test Docker Run (Nginx & Envsubst execution)
+        working-directory: generated-project
+        run: |
+          # 1. Run the container detached
+          docker run -d --name test-container -p 8080:8080 generated-app:test
+          
+          # 2. Wait a few seconds for Nginx and envsubst to initialize
+          sleep 5
+          
+          # 3. Verify Nginx is serving files and the env.js injection succeeded
+          curl --fail http://localhost:8080/
+          curl --fail http://localhost:8080/env.js
+
