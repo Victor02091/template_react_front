@@ -67,7 +67,7 @@ _tasks:
 
       if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
           git add .
-          git commit -m "chore: initial commit from template"
+          git commit --no-verify -m "chore: initial commit from template"
       fi
 
 _subdirectory: template
