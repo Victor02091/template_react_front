@@ -1,0 +1,87 @@
+# {{ project_name }}
+
+{{ description }}
+
+## 🛠️ Setup
+
+### 📦 Install dependencies
+
+```bash
+npm install
+```
+
+### 🔗 Generate API client
+
+Make sure the backend is running at `{{ backend_url }}`, then run:
+
+```bash
+npm run generate-api
+```
+
+This generates the TypeScript client in `src/api/client/` from the backend's OpenAPI spec.
+
+### 🪝 Pre-commit hooks
+
+Husky is configured to run lint-staged on every commit (ESLint + Prettier).
+Hooks are automatically installed when you run `npm install` (via the `prepare` script).
+
+## ▶️ Run locally
+
+```bash
+npm run dev
+```
+
+App will be available at [http://localhost:8080](http://localhost:8080).
+
+## 🏗️ Build for production
+
+```bash
+npm run build
+```
+
+## 🐳 Docker
+
+Build and run the production image:
+
+```bash
+docker build -t {{ project_name | lower | replace(' ', '-') }} .
+docker run -p 8080:8080 \
+  -e BACKEND_URL=https://your-api.example.com \
+  {{ project_name | lower | replace(' ', '-') }}
+```
+
+The container uses `envsubst` to inject runtime environment variables into `env.js` at startup.
+
+## 📁 Project structure
+
+```
+src/
+├── api/
+│   ├── apiClient.ts       # API client initialization
+│   └── client/            # Auto-generated from OpenAPI (git-ignored)
+├── components/
+│   └── Header.tsx         # Shared navigation header
+├── pages/
+│   ├── index.tsx          # Page exports barrel
+│   └── home/
+│       ├── HomePage.tsx
+│       └── components/
+├── App.tsx                # Router setup
+├── main.tsx               # App entry point
+├── env.ts                 # Runtime environment variables
+└── index.css              # Tailwind CSS v4 entry
+public/
+├── env.js                 # Local dev env values (not committed in prod)
+└── env.template.js        # Template for envsubst in Docker
+```
+
+## 🔧 Available commands
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start dev server on port 8080 |
+| `npm run build` | Production build |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | ESLint with auto-fix |
+| `npm run format` | Prettier format |
+| `npm run generate-api` | Regenerate OpenAPI client |

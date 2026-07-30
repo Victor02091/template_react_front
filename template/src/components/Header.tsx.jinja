@@ -1,0 +1,38 @@
+import { Link, useLocation } from "react-router-dom";
+
+const NAV_ITEMS = [{ to: "/", label: "Home" }];
+
+export function Header() {
+  const location = useLocation();
+
+  return (
+    <header className="w-full border-b border-border-subtle bg-bg-card shadow-sm">
+      <div className="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-3">
+        {/* Logo / Project name */}
+        <span className="text-lg font-bold text-brand-primary">
+          {{ project_name }}
+        </span>
+
+        {/* Navigation */}
+        <nav className="flex items-center gap-1">
+          {NAV_ITEMS.map(({ to, label }) => {
+            const isActive = location.pathname === to;
+            return (
+              <Link
+                key={to}
+                to={to}
+                className={`rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-brand-primary/10 text-brand-primary"
+                    : "text-text-muted hover:bg-gray-100 hover:text-text-main"
+                }`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+    </header>
+  );
+}

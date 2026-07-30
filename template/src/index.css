@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors — customize to match your project */
+  --color-brand-primary: #0082c3;
+  --color-brand-dark: #006b9f;
+  --color-bg-app: #f4f5f7;
+  --color-text-main: #333333;
+  --color-text-muted: #666666;
+  --color-border-subtle: #e1e4e8;
+  --color-bg-card: #ffffff;
+
+  /* Font stack */
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Global resets */
+body,
+#root {
+  background-color: var(--color-bg-app);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  width: 100%;
+}
