@@ -60,6 +60,9 @@ _tasks:
   - command: "npm install"
     when: "{{ install_dependencies }}"
 
+  - command: "npm run format"
+    when: "{{ install_dependencies }}"
+
   - command: |
       if [ ! -d .git ]; then
           git init
