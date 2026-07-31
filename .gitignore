@@ -1,0 +1,17 @@
+# Template testing directories
+/generated-project/
+/test_template/
+/test-template/
+.copier-answers.yml
+
+# Node.js dependencies and logs
+node_modules/
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
