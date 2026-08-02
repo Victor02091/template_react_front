@@ -36,6 +36,21 @@ backend_url:
   help: Default local backend URL (used in env.js and openapi-ts config)
   default: "http://localhost:8000"
 
+oidc_authority:
+  type: str
+  help: OIDC authority URL (e.g. Keycloak realm URL)
+  default: "http://localhost:9080/realms/my-app"
+
+oidc_client_id:
+  type: str
+  help: OIDC client ID
+  default: "my-react-spa"
+
+oidc_redirect_uri:
+  type: str
+  help: OIDC redirect URI after login
+  default: "http://localhost:8080"
+
 add_ci:
   type: bool
   default: true

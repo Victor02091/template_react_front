@@ -1,11 +1,34 @@
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { initializeApi } from "./api/apiClient";
+import { AuthProvider as OidcProvider } from "react-oidc-context";
+import { WebStorageStateStore } from "oidc-client-ts";
+import { OIDC_AUTHORITY, OIDC_CLIENT_ID, OIDC_REDIRECT_URI } from "@/env";
 import App from "./App.tsx";
 import "./index.css";
 
-// Initialize the API client (sets base URL and any global interceptors)
-initializeApi();
+const oidcConfig = {
+  authority: OIDC_AUTHORITY,
+  client_id: OIDC_CLIENT_ID,
+  redirect_uri: OIDC_REDIRECT_URI,
+
+  // Standard flows and scopes
+  response_type: "code",
+  scope: "openid profile",
+
+  // Standard post-logout behavior (returns user to the app's root URL)
+  post_logout_redirect_uri: window.location.origin,
+
+  // Keep the user logged in across tabs
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
+
+  // Prevents the user from being unexpectedly logged out after 5 minutes
+  automaticSilentRenew: true,
+
+  // Cleans up the '?code=...' URL after a successful login
+  onSigninCallback: () => {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  },
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,7 +40,9 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById("root")!).render(
-  <QueryClientProvider client={queryClient}>
-    <App />
-  </QueryClientProvider>,
+  <OidcProvider {...oidcConfig}>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </OidcProvider>,
 );

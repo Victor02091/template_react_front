@@ -1,9 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { HomePage } from "@/pages/home/HomePage";
+import { useAuthInterceptor } from "@/hooks/useAuthInterceptor";
 import "./index.css";
 
 function App() {
+  useAuthInterceptor();
+
   return (
     <BrowserRouter>
       <div className="mx-auto flex w-full max-w-screen-xl flex-col min-h-screen">

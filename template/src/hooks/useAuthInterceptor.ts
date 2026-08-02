@@ -1,0 +1,32 @@
+import { useEffect } from "react";
+import { useAuth } from "react-oidc-context";
+import { client } from "@/client/client.gen";
+import { BACK_URL } from "@/env";
+
+export const useAuthInterceptor = () => {
+  const auth = useAuth();
+
+  useEffect(() => {
+    // Dynamically set the backend base URL
+    client.setConfig({ baseUrl: BACK_URL });
+
+    // Attach a Request Interceptor (Fetch style)
+    const interceptor = (request: Request) => {
+      if (auth.isAuthenticated && auth.user?.access_token) {
+        request.headers.set(
+          "Authorization",
+          `Bearer ${auth.user.access_token}`,
+        );
+      }
+      return request;
+    };
+
+    // Register the request interceptor
+    client.interceptors.request.use(interceptor);
+
+    // Clean up when unmounting
+    return () => {
+      client.interceptors.request.eject(interceptor);
+    };
+  }, [auth.isAuthenticated, auth.user?.access_token]);
+};
