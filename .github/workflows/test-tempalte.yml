@@ -9,8 +9,12 @@ on:
 
 jobs:
   test-generation-and-build:
-    name: Generate and Test Project
+    name: Generate and Test Project (OIDC=${{ matrix.use_oidc }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        use_oidc: [true, false]
 
     steps:
       - name: Checkout template repository
@@ -44,7 +48,7 @@ jobs:
         run: |
           # --trust allows Copier to run your post-generation _tasks (e.g., npm install)
           # --defaults accepts all default answers automatically
-          copier copy --trust --defaults . generated-project
+          copier copy --trust --defaults --data use_oidc=${{ matrix.use_oidc }} . generated-project
 
       - name: Check Format (Prettier)
         working-directory: generated-project
@@ -78,4 +82,3 @@ jobs:
           # 3. Verify Nginx is serving files and the env.js injection succeeded
           curl --fail http://localhost:8080/
           curl --fail http://localhost:8080/env.js
-
