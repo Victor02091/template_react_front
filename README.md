@@ -13,6 +13,7 @@ It is designed to work seamlessly with the [backend template](https://github.com
 * **API Client Generation:** [@hey-api/openapi-ts](https://heyapi.dev/openapi-ts) with generated fetch client, SDK, and TypeScript types.
 * **Data Fetching:** [TanStack Query](https://tanstack.com/query/latest) pre-configured.
 * **Routing:** [React Router](https://reactrouter.com/) pre-configured.
+* **Authentication:** [OIDC](https://openid.net/connect/) integration via `react-oidc-context` with auto-injected token interceptors (optional).
 * **Linter:** [ESLint](https://eslint.org/) with TypeScript + React rules.
 * **Formatter:** [Prettier](https://prettier.io/) integrated with ESLint.
 * **Pre-commit:** [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged).
