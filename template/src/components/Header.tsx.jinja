@@ -1,4 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+{% if use_oidc %}
+import { AuthBadge } from "@/components/AuthBadge";
+{% endif %}
 
 const NAV_ITEMS = [{ to: "/", label: "Home" }];
 
@@ -13,25 +16,32 @@ export function Header() {
           {{ project_name }}
         </span>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-1">
-          {NAV_ITEMS.map(({ to, label }) => {
-            const isActive = location.pathname === to;
-            return (
-              <Link
-                key={to}
-                to={to}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-brand-primary/10 text-brand-primary"
-                    : "text-text-muted hover:bg-gray-100 hover:text-text-main"
-                }`}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
+        {/* Right side: Navigation + optional auth badge */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Navigation */}
+          <nav className="flex items-center gap-1">
+            {NAV_ITEMS.map(({ to, label }) => {
+              const isActive = location.pathname === to;
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? "bg-brand-primary/10 text-brand-primary"
+                      : "text-text-muted hover:bg-gray-100 hover:text-text-main"
+                  }`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+{% if use_oidc %}
+          <div className="hidden h-6 w-px bg-border-subtle sm:block" />
+          <AuthBadge />
+{% endif %}
+        </div>
       </div>
     </header>
   );

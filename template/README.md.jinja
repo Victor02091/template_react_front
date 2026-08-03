@@ -18,12 +18,7 @@ Make sure the backend is running at `{{ backend_url }}`, then run:
 npm run generate-api
 ```
 
-This generates the TypeScript client in `src/api/client/` from the backend's OpenAPI spec.
-
-### 🪝 Pre-commit hooks
-
-Husky is configured to run lint-staged on every commit (ESLint + Prettier).
-Hooks are automatically installed when you run `npm install` (via the `prepare` script).
+This generates the TypeScript client in `src/client/` from the backend's OpenAPI spec.
 
 ## ▶️ Run locally
 
@@ -32,6 +27,15 @@ npm run dev
 ```
 
 App will be available at [http://localhost:8080](http://localhost:8080).
+
+{% if use_oidc and oidc_provider == 'Local Keycloak' %}
+### 🔐 Local Keycloak login
+
+If you selected Local Keycloak, you can log in with these predefined accounts:
+
+- `test_user` (password: `password`)
+- `test_admin` (password: `password`)
+{% endif %}
 
 ## 🏗️ Build for production
 
@@ -56,11 +60,10 @@ The container uses `envsubst` to inject runtime environment variables into `env.
 
 ```
 src/
-├── api/
-│   ├── apiClient.ts       # API client initialization
-│   └── client/            # Auto-generated from OpenAPI (git-ignored)
-├── components/
-│   └── Header.tsx         # Shared navigation header
+├── assets/                # Static assets (images, fonts, etc.)
+├── client/                # Auto-generated from OpenAPI (git-ignored)
+├── components/            # Shared components
+├── hooks/                 # Custom hooks
 ├── pages/
 │   ├── index.tsx          # Page exports barrel
 │   └── home/
@@ -71,7 +74,7 @@ src/
 ├── env.ts                 # Runtime environment variables
 └── index.css              # Tailwind CSS v4 entry
 public/
-├── env.js                 # Local dev env values (not committed in prod)
+├── env.js                 # Local dev env values
 └── env.template.js        # Template for envsubst in Docker
 ```
 
@@ -85,3 +88,7 @@ public/
 | `npm run lint:fix` | ESLint with auto-fix |
 | `npm run format` | Prettier format |
 | `npm run generate-api` | Regenerate OpenAPI client |
+
+## 📧 Contacts
+
+* **{{ author_name }}** - [{{ author_email }}](mailto:{{ author_email }})

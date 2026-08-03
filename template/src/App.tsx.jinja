@@ -1,9 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { HomePage } from "@/pages/home/HomePage";
+{% if use_oidc %}
+import { useAuthInterceptor } from "@/hooks/useAuthInterceptor";
+{% endif %}
 import "./index.css";
 
 function App() {
+{% if use_oidc %}
+  useAuthInterceptor();
+{% endif %}
+
   return (
     <BrowserRouter>
       <div className="mx-auto flex w-full max-w-screen-xl flex-col min-h-screen">
