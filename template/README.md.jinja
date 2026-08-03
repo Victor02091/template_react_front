@@ -20,11 +20,6 @@ npm run generate-api
 
 This generates the TypeScript client in `src/api/client/` from the backend's OpenAPI spec.
 
-### 🪝 Pre-commit hooks
-
-Husky is configured to run lint-staged on every commit (ESLint + Prettier).
-Hooks are automatically installed when you run `npm install` (via the `prepare` script).
-
 ## ▶️ Run locally
 
 ```bash
@@ -32,6 +27,15 @@ npm run dev
 ```
 
 App will be available at [http://localhost:8080](http://localhost:8080).
+
+{% if use_oidc and oidc_provider == 'Local Keycloak' %}
+### 🔐 Local Keycloak login
+
+If you selected Local Keycloak, you can log in with these predefined accounts:
+
+- `test_user` (password: `password`)
+- `test_admin` (password: `password`)
+{% endif %}
 
 ## 🏗️ Build for production
 

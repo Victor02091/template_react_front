@@ -7,10 +7,9 @@ export const useAuthInterceptor = () => {
   const auth = useAuth();
 
   useEffect(() => {
-    // Dynamically set the backend base URL
+    // Dynamically set the backend base URL.
     client.setConfig({ baseUrl: BACK_URL });
 
-    // Attach a Request Interceptor (Fetch style)
     const interceptor = (request: Request) => {
       if (auth.isAuthenticated && auth.user?.access_token) {
         request.headers.set(
@@ -21,10 +20,8 @@ export const useAuthInterceptor = () => {
       return request;
     };
 
-    // Register the request interceptor
     client.interceptors.request.use(interceptor);
 
-    // Clean up when unmounting
     return () => {
       client.interceptors.request.eject(interceptor);
     };

@@ -36,20 +36,31 @@ backend_url:
   help: Default local backend URL (used in env.js and openapi-ts config)
   default: "http://localhost:8000"
 
-oidc_authority:
+use_oidc:
+  type: bool
+  default: true
+  help: Do you want to protect the App with OIDC Authentication?
+
+oidc_provider:
   type: str
-  help: OIDC authority URL (e.g. Keycloak realm URL)
-  default: "http://localhost:9080/realms/my-app"
+  default: Local Keycloak
+  choices:
+    Local Keycloak: Local Keycloak
+    External IdP (Okta, Auth0, Azure AD, Cognito, etc.): External IdP
+  help: Select your OIDC provider strategy.
+  when: "{{ use_oidc }}"
 
 oidc_client_id:
   type: str
-  help: OIDC client ID
-  default: "my-react-spa"
+  default: my-react-spa
+  help: OIDC client/application ID (for example, Okta app client ID).
+  when: "{{ use_oidc and oidc_provider == 'External IdP' }}"
 
-oidc_redirect_uri:
+oidc_authority:
   type: str
-  help: OIDC redirect URI after login
-  default: "http://localhost:8080"
+  default: https://your-idp.com/oauth2/default
+  help: OIDC issuer/authority URL (for example, Okta/Auth0/Azure AD).
+  when: "{{ use_oidc and oidc_provider == 'External IdP' }}"
 
 add_ci:
   type: bool

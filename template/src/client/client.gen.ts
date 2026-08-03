@@ -7,7 +7,7 @@
  */
 
 export const client = {
-  setConfig: () => {
+  setConfig: (..._args: unknown[]) => {
     console.warn(
       "⚠️ API Client not generated yet! Run `npm run generate-api` to connect to your backend.",
     );
@@ -15,12 +15,12 @@ export const client = {
   // Stubbing the fetch-based interceptors so the app doesn't crash on boot
   interceptors: {
     request: {
-      use: () => {},
-      eject: () => {},
+      use: (..._args: unknown[]) => {},
+      eject: (..._args: unknown[]) => {},
     },
     response: {
-      use: () => {},
-      eject: () => {},
+      use: (..._args: unknown[]) => {},
+      eject: (..._args: unknown[]) => {},
     },
   },
 };

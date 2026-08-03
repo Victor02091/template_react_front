@@ -1,11 +1,14 @@
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+{% if use_oidc %}
 import { AuthProvider as OidcProvider } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
 import { OIDC_AUTHORITY, OIDC_CLIENT_ID, OIDC_REDIRECT_URI } from "@/env";
+{% endif %}
 import App from "./App.tsx";
 import "./index.css";
 
+{% if use_oidc %}
 const oidcConfig = {
   authority: OIDC_AUTHORITY,
   client_id: OIDC_CLIENT_ID,
@@ -29,6 +32,7 @@ const oidcConfig = {
     window.history.replaceState({}, document.title, window.location.pathname);
   },
 };
+{% endif %}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,9 +44,15 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById("root")!).render(
+{% if use_oidc %}
   <OidcProvider {...oidcConfig}>
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
   </OidcProvider>,
+{% else %}
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>,
+{% endif %}
 );
