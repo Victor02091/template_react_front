@@ -18,7 +18,7 @@ Make sure the backend is running at `{{ backend_url }}`, then run:
 npm run generate-api
 ```
 
-This generates the TypeScript client in `src/api/client/` from the backend's OpenAPI spec.
+This generates the TypeScript client in `src/client/` from the backend's OpenAPI spec.
 
 ## ▶️ Run locally
 
@@ -60,11 +60,10 @@ The container uses `envsubst` to inject runtime environment variables into `env.
 
 ```
 src/
-├── api/
-│   ├── apiClient.ts       # API client initialization
-│   └── client/            # Auto-generated from OpenAPI (git-ignored)
-├── components/
-│   └── Header.tsx         # Shared navigation header
+├── assets/                # Static assets (images, fonts, etc.)
+├── client/                # Auto-generated from OpenAPI (git-ignored)
+├── components/            # Shared components
+├── hooks/                 # Custom hooks
 ├── pages/
 │   ├── index.tsx          # Page exports barrel
 │   └── home/
@@ -75,7 +74,7 @@ src/
 ├── env.ts                 # Runtime environment variables
 └── index.css              # Tailwind CSS v4 entry
 public/
-├── env.js                 # Local dev env values (not committed in prod)
+├── env.js                 # Local dev env values
 └── env.template.js        # Template for envsubst in Docker
 ```
 

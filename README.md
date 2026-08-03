@@ -27,10 +27,10 @@ The template generates a clean frontend layout:
 ```text
 your-project/
 ├── src/
-│   ├── api/
-│   │   ├── apiClient.ts      # API client initialization
-│   │   └── client/           # Auto-generated OpenAPI client
+│   ├── assets/               # Static assets (images, fonts, etc.)
+│   ├── client/               # Auto-generated OpenAPI client
 │   ├── components/           # Shared components
+│   ├── hooks/                # Custom hooks (e.g. OIDC interceptor)
 │   ├── pages/                # Feature pages
 │   ├── env.ts                # Runtime environment access
 │   ├── App.tsx               # App root / routing
