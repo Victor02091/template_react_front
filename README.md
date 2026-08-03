@@ -15,9 +15,9 @@ It is designed to work seamlessly with the [backend template](https://github.com
 * **Routing:** [React Router](https://reactrouter.com/) pre-configured.
 * **Linter:** [ESLint](https://eslint.org/) with TypeScript + React rules.
 * **Formatter:** [Prettier](https://prettier.io/) integrated with ESLint.
-* **Pre-commit:** [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged) (optional via git workflow).
+* **Pre-commit:** [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged).
 * **CI/CD:** CI pipelines for GitHub Actions, GitLab CI, or Bitbucket Pipelines (optional).
-* **Containerization:** Production-ready Docker image (multi-stage build + unprivileged Nginx + runtime env injection).
+* **Containerization:** Production-ready Docker image (unprivileged Nginx + runtime env injection).
 * **Editor:** VS Code settings and recommended extensions pre-configured.
 
 ## 📂 Project Structure
@@ -110,3 +110,27 @@ If you have already generated a project and want to pull the latest updates from
 ```bash
 copier update --trust
 ```
+
+## 📋 Template Parameters
+
+During generation, Copier will ask you a series of questions. Here is a quick reference for what each parameter controls:
+
+### General Settings
+* **`project_name`**: The human-readable name of your project. Auto-slugified for the `package.json` name field and Docker image tags. *(Default: Current folder name)*
+* **`description`**: A short summary of what the project does. Injected into the generated `README.md`. *(Default: "A React frontend application.")*
+* **`author_name`** & **`author_email`**: Documentation metadata injected into the README. *(Default: Your global git config)*
+* **`node_version`**: Pins the Node.js version across the stack (`.node-version`, Dockerfile, and CI/CD pipelines). *(Choices: 20, 22, 24 | Default: 24)*
+* **`backend_url`**: The local URL of your backend API. Used at runtime (`env.js`) and by the OpenAPI client generator to fetch your schema. *(Default: `http://localhost:8000`)*
+
+### Tooling & CI/CD
+* **`add_ci`**: Generates a CI pipeline workflow that runs `npm run lint` and `npm run build` on every push. *(Default: true)*
+* **`ci_provider`**: Selects the target CI platform (`Github Actions`, `GitLab CI`, or `Bitbucket Pipelines`). *(Condition: `add_ci` is true)*
+* **`install_dependencies`**: Automatically runs `npm install` and formats the codebase immediately after generation. *(Default: true)*
+
+### Authentication (OIDC)
+* **`use_oidc`**: Protects the frontend with OpenID Connect. Adds the auth UI components, token interceptor hooks for API calls, and injects runtime environment variables. *(Default: true)*
+* **`oidc_provider`**: *(Condition: `use_oidc` is true)*
+  * `Local Keycloak`: Configures the app to point to the backend's local Keycloak container. Ideal for local development (ships with mock users).
+  * `External IdP`: Skips Keycloak and points the app directly to an existing provider (Okta, Auth0, Azure AD, Cognito, etc.).
+* **`oidc_client_id`**: The OAuth 2.0 Client/App ID from your external provider. Used by the auth context to identify the frontend during login. *(Condition: External IdP is selected | Default: `my-react-spa`)*
+* **`oidc_authority`**: The issuer URL (e.g., `https://your-tenant.auth0.com/`) used to discover the authorization endpoints and verify tokens. *(Condition: External IdP is selected | Default: `https://your-idp.com/oauth2/default`)*

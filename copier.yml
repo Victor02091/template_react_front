@@ -24,7 +24,7 @@ description:
 
 node_version:
   type: str
-  help: Node.js version
+  help: Which version of Node.js are you using?
   default: "24"
   choices:
     - "24"
