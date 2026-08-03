@@ -1,9 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
 
 const NAV_ITEMS = [{ to: "/", label: "Home" }];
 
 export function Header() {
   const location = useLocation();
+  const auth = useAuth();
+
+  // Safely extract a display name and first initial
+  const displayName = auth.user?.profile.preferred_username || auth.user?.profile.name || "User";
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <header className="w-full border-b border-border-subtle bg-bg-card shadow-sm">
@@ -13,25 +19,75 @@ export function Header() {
           {{ project_name }}
         </span>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-1">
-          {NAV_ITEMS.map(({ to, label }) => {
-            const isActive = location.pathname === to;
-            return (
-              <Link
-                key={to}
-                to={to}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-brand-primary/10 text-brand-primary"
-                    : "text-text-muted hover:bg-gray-100 hover:text-text-main"
-                }`}
+        {/* Right side: Nav + Auth UI */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Navigation */}
+          <nav className="flex items-center gap-1">
+            {NAV_ITEMS.map(({ to, label }) => {
+              const isActive = location.pathname === to;
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? "bg-brand-primary/10 text-brand-primary"
+                      : "text-text-muted hover:bg-gray-100 hover:text-text-main"
+                  }`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Vertical Divider (Hidden on very small screens) */}
+          <div className="hidden h-6 w-px bg-border-subtle sm:block" />
+
+          {/* Auth UI */}
+          <div className="flex items-center">
+            {auth.isLoading && (
+              // UX: Skeleton loader instead of text
+              <div className="flex animate-pulse items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-gray-200" />
+                <div className="hidden h-4 w-20 rounded bg-gray-200 sm:block" />
+              </div>
+            )}
+
+            {auth.isAuthenticated && (
+              <div className="flex items-center gap-3">
+                {/* UX: Profile Badge with Initial Avatar */}
+                <div className="flex items-center gap-2 rounded-full border border-border-subtle bg-gray-50 py-1 pl-1 pr-3">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-primary/10 text-xs font-bold text-brand-primary">
+                    {initial}
+                  </div>
+                  <span className="max-w-[120px] truncate text-sm font-medium text-text-main">
+                    {displayName}
+                  </span>
+                </div>
+
+                {/* UX: Subtle Ghost Button for Logout */}
+                <button
+                  onClick={() => void auth.signoutRedirect()}
+                  className="rounded-md px-3 py-1.5 text-sm font-medium text-text-muted transition-colors hover:bg-gray-100 hover:text-text-main"
+                  title="Log out"
+                >
+                  Log out
+                </button>
+              </div>
+            )}
+
+            {!auth.isLoading && !auth.isAuthenticated && (
+              // UX: Primary action button with slight shadow for emphasis
+              <button
+                onClick={() => void auth.signinRedirect()}
+                className="rounded-md bg-brand-primary px-5 py-2 text-sm font-medium text-white shadow-sm transition-all hover:opacity-90 hover:shadow"
               >
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
+                Log in
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </header>
   );
