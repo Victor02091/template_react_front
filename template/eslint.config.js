@@ -8,7 +8,7 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 
 export default defineConfig([
   {
-    ignores: ["dist", "eslint.config.js", "src/api/client/*"],
+    ignores: ["dist", "eslint.config.js", "src/client/**"],
   },
   {
     files: ["**/*.{ts,tsx}"],
