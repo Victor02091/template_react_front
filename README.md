@@ -21,6 +21,10 @@ It is designed to work seamlessly with the [backend template](https://github.com
 * **Containerization:** Production-ready Docker image (unprivileged Nginx + runtime env injection).
 * **Editor:** VS Code settings and recommended extensions pre-configured.
 
+## 📸 Preview
+
+![Welcome page screenshot](images/welcome_page.png)
+
 ## 📂 Project Structure
 
 The template generates a clean frontend layout:
