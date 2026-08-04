@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 import { client } from "@/client/client.gen";
-import { BACK_URL } from "@/env";
 
 export const useAuthInterceptor = () => {
   const auth = useAuth();
 
   useEffect(() => {
-    // Dynamically set the backend base URL.
-    client.setConfig({ baseUrl: BACK_URL });
-
     const interceptor = (request: Request) => {
       if (auth.isAuthenticated && auth.user?.access_token) {
         request.headers.set(

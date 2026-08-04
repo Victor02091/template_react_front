@@ -1,12 +1,19 @@
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 {% if use_oidc %}
 import { AuthProvider as OidcProvider } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
-import { OIDC_AUTHORITY, OIDC_CLIENT_ID, OIDC_REDIRECT_URI } from "@/env";
 {% endif %}
+
+import { BACK_URL{% if use_oidc %}, OIDC_AUTHORITY, OIDC_CLIENT_ID, OIDC_REDIRECT_URI{% endif %} } from "@/env";
+import { client } from "@/client/client.gen";
+
 import App from "./App.tsx";
 import "./index.css";
+
+// set the backend URL immediately on startup
+client.setConfig({ baseUrl: BACK_URL });
 
 {% if use_oidc %}
 const oidcConfig = {

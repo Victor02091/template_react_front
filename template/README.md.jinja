@@ -28,6 +28,10 @@ npm run dev
 
 App will be available at [http://localhost:8080](http://localhost:8080).
 
+{% if use_oidc %}
+When `use_oidc=true`, configure your IdP client to include `http://localhost:8080` in the allowed redirect URIs (callback URLs) for local dev.
+{% endif %}
+
 {% if use_oidc and oidc_provider == 'Local Keycloak' %}
 ### 🔐 Local Keycloak login
 
@@ -43,25 +47,12 @@ If you selected Local Keycloak, you can log in with these predefined accounts:
 npm run build
 ```
 
-## 🐳 Docker
-
-Build and run the production image:
-
-```bash
-docker build -t {{ project_name | lower | replace(' ', '-') }} .
-docker run -p 8080:8080 \
-  -e BACKEND_URL=https://your-api.example.com \
-  {{ project_name | lower | replace(' ', '-') }}
-```
-
-The container uses `envsubst` to inject runtime environment variables into `env.js` at startup.
-
 ## 📁 Project structure
 
 ```
 src/
 ├── assets/                # Static assets (images, fonts, etc.)
-├── client/                # Auto-generated from OpenAPI (git-ignored)
+├── client/                # Auto-generated from OpenAPI
 ├── components/            # Shared components
 ├── hooks/                 # Custom hooks
 ├── pages/
@@ -88,6 +79,29 @@ public/
 | `npm run lint:fix` | ESLint with auto-fix |
 | `npm run format` | Prettier format |
 | `npm run generate-api` | Regenerate OpenAPI client |
+
+## 🐳 Docker
+
+Because this project injects environment variables at runtime, you only need to build the Docker image once. You can deploy the exact same image to staging and production just by changing the container's environment variables.
+
+Build the Docker image:
+
+```bash
+docker build -t {{ project_name | lower | replace('_', '-') | replace(' ', '-') }} .
+```
+
+Run the container locally:
+
+```bash
+{% if use_oidc %}
+docker run -it --rm -p 8080:8080 --env-file .env \
+	-e OIDC_AUTHORITY="{% if oidc_provider == 'Local Keycloak' %}http://localhost:9080/realms/my-app{% else %}{{ oidc_authority }}{% endif %}" \
+	-e OIDC_CLIENT_ID="{% if oidc_provider == 'Local Keycloak' %}my-react-spa{% else %}{{ oidc_client_id }}{% endif %}" \
+	{{ project_name | lower | replace('_', '-') | replace(' ', '-') }}
+{% else %}
+docker run -it --rm -p 8080:8080 --env-file .env {{ project_name | lower | replace('_', '-') | replace(' ', '-') }}
+{% endif %}
+```
 
 ## 📧 Contacts
 
