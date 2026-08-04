@@ -28,6 +28,10 @@ npm run dev
 
 App will be available at [http://localhost:8080](http://localhost:8080).
 
+{% if use_oidc %}
+When `use_oidc=true`, configure your IdP client to include `http://localhost:8080` in the allowed redirect URIs (callback URLs) for local dev.
+{% endif %}
+
 {% if use_oidc and oidc_provider == 'Local Keycloak' %}
 ### 🔐 Local Keycloak login
 
