@@ -8,6 +8,10 @@ function useBackendHealth(): HealthStatus {
 
   useEffect(() => {
     let cancelled = false;
+
+    // NOTE: We use native fetch here instead of the OpenAPI client so the 
+    // template works out-of-the-box without requiring you to run `npm run generate-api`.
+    // For your actual application features, always use the generated client!
     fetch(`${BACK_URL}/health`)
       .then((res) => {
         if (!cancelled) setStatus(res.ok ? "ok" : "unreachable");
