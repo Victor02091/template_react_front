@@ -26,5 +26,3 @@ dist-ssr/
 *.swp
 *.swo
 
-# Copier answers
-.copier-answers.yml

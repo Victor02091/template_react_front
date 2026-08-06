@@ -1,0 +1,26 @@
+# Dependency directories
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build outputs
+dist/
+build/
+.tscache/
+
+# Git and OS files
+.git/
+.gitignore
+.DS_Store
+Thumbs.db
+
+# Environment variables (prevents accidentally leaking local secrets)
+.env
+.env.*
+!.env.example
+
+# Editor and tooling directories
+.vscode/
+.idea/
+.husky/

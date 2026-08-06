@@ -10,9 +10,10 @@ export function Header() {
 
   return (
     <header className="w-full border-b border-border-subtle bg-bg-card shadow-sm">
-      <div className="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-3">
+      {/* Changed to w-full and added lg:px-8 for nice edge spacing on big screens */}
+      <div className="flex w-full items-center justify-between px-6 py-3 lg:px-8">
         {/* Logo / Project name */}
-        <span className="text-lg font-bold text-brand-primary">
+        <span className="text-brand-primary text-lg font-bold">
           {{ project_name }}
         </span>
 
@@ -38,7 +39,7 @@ export function Header() {
             })}
           </nav>
 {% if use_oidc %}
-          <div className="hidden h-6 w-px bg-border-subtle sm:block" />
+          <div className="bg-border-subtle hidden h-6 w-px sm:block" />
           <AuthBadge />
 {% endif %}
         </div>
