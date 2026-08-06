@@ -1,12 +1,1 @@
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/copier-org/copier/master/copier/schema.json
-_src_path: "{{ _copier_conf.src_path }}"
-project_name: "{{ project_name }}"
-author_name: "{{ author_name }}"
-author_email: "{{ author_email }}"
-description: "{{ description }}"
-node_version: "{{ node_version }}"
-backend_url: "{{ backend_url }}"
-add_ci: {{ add_ci }}
-ci_provider: "{{ ci_provider }}"
-install_dependencies: {{ install_dependencies }}
+{{ _copier_answers|to_nice_yaml }}
