@@ -133,33 +133,14 @@ _tasks:
   - command: "npm install"
     when: "{{ install_dependencies }}"
 
-  - command: "npm run lint:fix || true"
+  - command: "npm run lint:fix"
     when: "{{ install_dependencies }}"
 
-  - command: "npm run format || true"
+  - command: "npm run format"
     when: "{{ install_dependencies }}"
 
-  - command: |
-      if [ ! -d .git ]; then
-          git init
-      fi
+  # Final Setup (Git, Message, Cleanup)
+  - command: "uv run --quiet .setup.py"
 
-      if ! git ls-files .copier-answers.yml --error-unmatch > /dev/null 2>&1; then
-          git add .
-          git commit --no-verify -m "chore: initial commit from template"
-      fi
-
-  - command: |
-        printf "\033[0;32m✨ Project {{ project_name }} successfully generated! \033[0m\n\n"
-        echo ""
-        echo "Next steps:"
-        {%- if not install_dependencies %}
-        echo "  🚀 Get started:"
-        printf "       1. \033[36mnpm install\033[0m\n"
-        printf "       2. \033[36mnpm run dev\033[0m\n"
-        {%- else %}
-        echo "  🚀 Get started:"
-        printf "       ▶  \033[36mnpm run dev\033[0m\n"
-        {%- endif %}
 
 _subdirectory: template
