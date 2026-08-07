@@ -5,6 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default defineConfig([
   {
@@ -19,6 +20,7 @@ export default defineConfig([
     ],
     plugins: {
       "react-refresh": reactRefresh,
+      "simple-import-sort": simpleImportSort,
     },
     languageOptions: {
       ecmaVersion: 2020,
@@ -29,6 +31,8 @@ export default defineConfig([
         "warn",
         { allowConstantExport: true },
       ],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
     },
   },
   eslintPluginPrettierRecommended,

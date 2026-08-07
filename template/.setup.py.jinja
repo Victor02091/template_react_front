@@ -1,0 +1,55 @@
+# ruff: noqa
+import subprocess
+from pathlib import Path
+
+# ==============================================================================
+# 1. INITIALIZE GIT & MAKE FIRST COMMIT
+# ==============================================================================
+if not Path(".git").exists():
+    subprocess.run(["git", "init"], capture_output=True, check=False)
+
+res = subprocess.run(
+    ["git", "ls-files", ".copier-answers.yml", "--error-unmatch"],
+    capture_output=True,
+    check=False,
+)
+if res.returncode != 0:
+    subprocess.run(["git", "add", "."], capture_output=True, check=False)
+    
+    # Un-stage this setup script before committing
+    script_name = Path(__file__).name
+    subprocess.run(
+        ["git", "rm", "--cached", script_name],
+        capture_output=True,
+        check=False,
+    )
+    
+    subprocess.run(
+        ["git", "commit", "--no-verify", "-m", "chore: initial commit from template"],
+        capture_output=True,
+        check=False,
+    )
+
+# ==============================================================================
+# 2. PRINT SUCCESS MESSAGE
+# ==============================================================================
+print("\n\033[0;32m✨ Project {{ project_name }} successfully generated! \033[0m\n")
+print("Next steps:")
+
+{% if not install_dependencies %}
+print("  🚀 Get started:")
+print("       1. \033[36mnpm install\033[0m")
+print("       2. \033[36mnpm run dev\033[0m")
+{% else %}
+print("  🚀 Get started:")
+print("       ▶  \033[36mnpm run dev\033[0m")
+{% endif %}
+
+
+# ==============================================================================
+# 3. SELF-DESTRUCT
+# ==============================================================================
+try:
+    Path(__file__).unlink(missing_ok=True)
+except Exception:
+    pass
