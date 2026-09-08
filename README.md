@@ -6,24 +6,13 @@ This template provides a batteries-included setup with modern tooling, strict li
 
 It is designed to work seamlessly with the [backend template](https://github.com/Victor02091/template_python_fastapi) for a complete full-stack setup.
 
-## ✨ Features
+Use this template : 
 
-* **Framework:** [React](https://react.dev/) + [Vite](https://vite.dev/) + [TypeScript](https://www.typescriptlang.org/) with a production build pipeline.
-* **Styling:** [Tailwind CSS v4](https://tailwindcss.com/).
-* **API Client Generation:** [@hey-api/openapi-ts](https://heyapi.dev/openapi-ts) with generated fetch client, SDK, and TypeScript types.
-* **Data Fetching:** [TanStack Query](https://tanstack.com/query/latest) pre-configured.
-* **Routing:** [React Router](https://reactrouter.com/) pre-configured.
-* **Authentication:** [OIDC](https://openid.net/connect/) integration via `react-oidc-context` with auto-injected token interceptors (optional).
-* **Linter:** [ESLint](https://eslint.org/) with TypeScript + React rules.
-* **Formatter:** [Prettier](https://prettier.io/) integrated with ESLint.
-* **Pre-commit:** [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged).
-* **CI/CD:** CI pipelines for GitHub Actions, GitLab CI, or Bitbucket Pipelines (optional).
-* **Containerization:** Production-ready Docker image (unprivileged Nginx + runtime env injection).
-* **Editor:** VS Code settings and recommended extensions pre-configured.
+    copier copy --trust https://github.com/Victor02091/template_react_front .
 
-## 📸 Preview
-
-![Welcome page screenshot](images/welcome_page.png)
+<p align="center">
+  <img src="images/copier_demo.png" alt="copier" width="600">
+</p>
 
 ## 📂 Project Structure
 
@@ -52,6 +41,25 @@ your-project/
 ├── vite.config.ts
 └── package.json
 ```
+
+## ✨ Features
+
+* **Framework:** [React](https://react.dev/) + [Vite](https://vite.dev/) + [TypeScript](https://www.typescriptlang.org/) with a production build pipeline.
+* **Styling:** [Tailwind CSS v4](https://tailwindcss.com/).
+* **API Client Generation:** [@hey-api/openapi-ts](https://heyapi.dev/openapi-ts) with generated fetch client, SDK, and TypeScript types.
+* **Data Fetching:** [TanStack Query](https://tanstack.com/query/latest) pre-configured.
+* **Routing:** [React Router](https://reactrouter.com/) pre-configured.
+* **Authentication:** [OIDC](https://openid.net/connect/) integration via `react-oidc-context` with auto-injected token interceptors (optional).
+* **Linter:** [ESLint](https://eslint.org/) with TypeScript + React rules.
+* **Formatter:** [Prettier](https://prettier.io/) integrated with ESLint.
+* **Pre-commit:** [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged).
+* **CI/CD:** CI pipelines for GitHub Actions, GitLab CI, or Bitbucket Pipelines (optional).
+* **Containerization:** Production-ready Docker image (unprivileged Nginx + runtime env injection).
+* **Editor:** VS Code settings and recommended extensions pre-configured.
+
+## 📸 Preview
+
+![Welcome page screenshot](images/welcome_page.png)
 
 ## 🛠️ Requirements
 
