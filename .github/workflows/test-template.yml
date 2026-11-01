@@ -48,7 +48,7 @@ jobs:
         run: |
           # --trust allows Copier to run your post-generation _tasks (e.g., npm install)
           # --defaults accepts all default answers automatically
-          copier copy --trust --defaults --data use_oidc=${{ matrix.use_oidc }} . generated-project
+          copier copy --trust --vcs-ref HEAD --defaults --data use_oidc=${{ matrix.use_oidc }} . generated-project
 
       - name: Check Format (Prettier)
         working-directory: generated-project
@@ -76,9 +76,12 @@ jobs:
           # 1. Run the container detached
           docker run -d --name test-container -p 8080:8080 generated-app:test
           
-          # 2. Wait a few seconds for Nginx and envsubst to initialize
-          sleep 5
+          # 2. Verify Nginx is serving files
+          curl --fail --silent --show-error \
+            --retry 5 \
+            --retry-connrefused \
+            --retry-delay 2 \
+            http://127.0.0.1:8080/ > /dev/null
           
-          # 3. Verify Nginx is serving files and the env.js injection succeeded
-          curl --fail http://localhost:8080/
-          curl --fail http://localhost:8080/env.js
+          # 3. Verify the env.js injection succeeded
+          curl --fail --silent --show-error http://127.0.0.1:8080/env.js > /dev/null
