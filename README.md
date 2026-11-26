@@ -6,7 +6,7 @@ This template provides a batteries-included setup with modern tooling, strict li
 
 It is designed to work seamlessly with the [backend template](https://github.com/Victor02091/template_python_fastapi) for a complete full-stack setup.
 
-Use this template : 
+**Use this template :**
 
     copier copy --trust https://github.com/Victor02091/template_react_front .
 
